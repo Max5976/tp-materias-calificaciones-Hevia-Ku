@@ -1,13 +1,13 @@
 import { Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import MateriasServices from './../services/materia.service.js'
+import MateriasService from './../services/materia.service.js'
 
 const router = Router();
-const currentService = new CursosService();
+const currentService = new MateriasService();
 
 router.get('', async (req, res) => {
     try {
-        console.log(`MateriaController.get`);
+        console.log(`MateriasController.get`);
         const returnArray = await currentService.getAllAsync();
         if (returnArray != null){
             res.status(StatusCodes.OK).json(returnArray);
@@ -71,20 +71,3 @@ router.put('/:id', async (req, res) => {
         res.status(StatusCodes.BAD_REQUEST).send(`Error: ${error.message}`);
     }
 });
-
-router.delete('/:id', async (req, res) => {
-    try {
-        let id = req.params.id;
-        const rowCount = await currentService.deleteByIdAsync(id);
-        if (rowCount != 0){
-            res.status(StatusCodes.OK).json(null);
-        } else {
-            res.status(StatusCodes.NOT_FOUND).send(`No se encontro la entidad (id:${id}).`);
-        }
-    } catch (error) {
-        console.log(error);
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`Error: ${error.message}`);
-    }
-});
-
-export default router;
