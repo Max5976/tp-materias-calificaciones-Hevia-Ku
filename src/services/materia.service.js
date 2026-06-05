@@ -1,4 +1,4 @@
-import MateriaRepository from '../repositories/materias-repository.js';
+import MateriasRepository from '../repositories/materias-repository.js';
 
 export default class MateriasService {
     getAllAsync = async () => {
@@ -19,6 +19,11 @@ export default class MateriasService {
     updateAsync = async (entity) => {
         console.log(`MateriasService.updateAsync(${JSON.stringify(entity)})`);
         const rowsAffected = await this.MateriaRepository.updateAsync(entity);
+        return rowsAffected;
+    }
+        deleteByIdAsync = async (id) => {
+        console.log(`MateriasService.deleteByIdAsync(${id})`);
+        const rowsAffected = await this.MateriaRepository.deleteByIdAsync(id);
         return rowsAffected;
     }
 }

@@ -1,18 +1,18 @@
 import Db from './db-pg.js';
 
-export default class MateriaRepository {
+export default class MateriasRepository {
 
     getMaterias = async () => {
-        console.log(`MateriaRepository.getAllAsync()`);
-        const sql = `SELECT * FROM materia`;
+        console.log(`MateriasRepository.getAllAsync()`);
+        const sql = `SELECT * FROM materias`;
         return await this.db.queryAll(sql);
     }
     
     getByIdAsync = async (id) => {
-        console.log(`MateriaRepository.getByIdAsync(${id})`);
+        console.log(`MateriasRepository.getByIdAsync(${id})`);
         let returnEntity = null;
         try {
-            const sql = `SELECT * FROM materia WHERE id=$1`;
+            const sql = `SELECT * FROM materias WHERE id=$1`;
             const values = [id];
             const resultPg = await this.getDBPool().query(sql, values);
             if (resultPg.rows.length > 0){
@@ -28,7 +28,7 @@ export default class MateriaRepository {
         console.log(`MateriasRepository.createAsync(${JSON.stringify(entity)})`);
         let newId = 0;
         try {
-            const sql = `INSERT INTO materia (nombre) VALUES ($1) RETURNING id`;
+            const sql = `INSERT INTO materias (nombre) VALUES ($1) RETURNING id`;
             const values = [entity?.nombre ?? ''];
             const resultPg = await this.getDBPool().query(sql, values);
             newId = resultPg.rows[0].id;
@@ -44,7 +44,7 @@ export default class MateriaRepository {
         let id = entity.id;
     
         try {
-            const sql = `UPDATE materia SET nombre = $2 WHERE id = $1`;
+            const sql = `UPDATE materias SET nombre = $2 WHERE id = $1`;
             const values = [id, entity?.nombre ?? ''];
             const resultPg = await this.getDBPool().query(sql, values);
             rowsAffected = resultPg.rowCount;
@@ -52,6 +52,12 @@ export default class MateriaRepository {
             LogHelper.logError(error);
         }
         return rowsAffected;
+    }
+    
+    deleteByIdAsync = async (id) => {
+        console.log(`MateriasRepository.deleteByIdAsync(${id})`);
+        const sql = `DELETE FROM materias WHERE id=$1`;
+        return await this.db.queryRowCount(sql, [id]);
     }
 }
 
