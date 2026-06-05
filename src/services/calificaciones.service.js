@@ -1,4 +1,6 @@
 import CalificacionesRepository from '../repositories/calificaciones-repository.js';
+import AlumnosService from './alumnos.service.js';
+import MateriasService from './materia.service.js';
 
 export default class CalificacionesService {
     constructor() {
@@ -26,6 +28,21 @@ export default class CalificacionesService {
 
     createAsync = async (entity) => {
         console.log(`CalificacionesService.createAsync(${JSON.stringify(entity)})`);
+        
+        if (entity.nota < 0 || entity.nota > 10) {
+            throw new Error('La nota debe ser entre 0 y 10');
+        }
+        
+        const alumno = await this.AlumnosService.getByIdAsync(entity.id_alumno);
+        const materia = await this.MateriasService.getByIdAsync(entity.id_materia);
+
+        if (!alumno) {
+            throw new Error ('El alumno no existe')
+        }
+        else if (!materia) {
+            throw new Error ('La materia no existe')
+        }
+
         const rowsAffected = await this.CalificacionesRepository.createAsync(entity);
         return rowsAffected;
     }

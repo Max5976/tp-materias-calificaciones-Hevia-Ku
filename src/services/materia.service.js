@@ -18,6 +18,11 @@ export default class MateriasService {
     }
     createAsync = async (entity) => {
         console.log(`MateriasService.createAsync(${JSON.stringify(entity)})`);
+        
+        if (!entity?.nombre || entity.nombre.trim() === '') {
+            throw new Error('Nombre es obligatorio y no puede estar vacío');
+        }
+        
         const rowsAffected = await this.MateriasRepository.createAsync(entity);
         return rowsAffected;
     }
