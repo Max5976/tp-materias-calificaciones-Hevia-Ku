@@ -24,6 +24,12 @@ export default class CalificacionesRepository {
         return await this.db.queryAll(sql, [id]);
     }
 
+    getByAlumnoMateriaAsync = async (idAlumno, idMateria) => {
+        console.log(`CalificacionesRepository.getByAlumnoMateriaAsync(${idAlumno}, ${idMateria})`);
+        const sql = `SELECT id, id_alumno, id_materia, nota, fecha FROM calificaciones WHERE id_alumno=$1 AND id_materia=$2`;
+        return await this.db.queryOne(sql, [idAlumno, idMateria]);
+    }
+
     createAsync = async (entity) => {
         console.log(`CalificacionesRepository.createAsync(${JSON.stringify(entity)})`);
         const sql = `

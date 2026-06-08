@@ -23,7 +23,7 @@ router.get('', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         let id = req.params.id;
-        const returnEntity = await currentService.getByIdAsync(idAlumno);
+        const returnEntity = await currentService.getByIdAsync(id);
         if (returnEntity != null){
             res.status(StatusCodes.OK).json(returnEntity);
         } else {
@@ -38,7 +38,7 @@ router.get('/:id', async (req, res) => {
 router.get('/alumno/:idAlumno', async (req, res) => {
     try {
         let idAlumno = req.params.idAlumno;
-        const returnEntity = await currentService.getByIdAlumnoAsync(id);
+        const returnEntity = await currentService.getByIdAlumnoAsync(idAlumno);
         if (returnEntity != null){
             res.status(StatusCodes.OK).json(returnEntity);
         } else {
